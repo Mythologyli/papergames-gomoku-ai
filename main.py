@@ -32,6 +32,23 @@ class QTextEditLogger(logging.Handler, QtCore.QObject):
         self.appendPlainText.emit(msg)
 
 
+class DebugWindow(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        self.setWindowIcon(QtGui.QIcon('icon.svg'))
+        self.setWindowTitle("Debug")
+        self.resize(400, 400)
+
+        self.label = QLabel()
+
+        layout = QGridLayout()
+        layout.addWidget(self.label, 0, 0)
+        self.setLayout(layout)
+
+        self.setWindowFlag(QtCore.Qt.WindowStaysOnTopHint)
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -40,6 +57,8 @@ class MainWindow(QMainWindow):
         self.scale_factor = ctypes.windll.shcore.GetScaleFactorForDevice(0) / 100.0
         self.screen = QApplication.primaryScreen()
         self.chess_thread_running = False
+
+        self.debug_window = DebugWindow()
 
         self.log_level_button = QButtonGroup()
 
@@ -100,6 +119,10 @@ class MainWindow(QMainWindow):
 
         self.text_logger = QTextEditLogger(self)
 
+        self.debug_window_button = QPushButton('Debug')
+        # noinspection PyUnresolvedReferences
+        self.debug_window_button.clicked.connect(lambda: self.debug_window.show())
+
         self.about_button = QPushButton('About')
         # noinspection PyUnresolvedReferences
         self.about_button.clicked.connect(
@@ -148,6 +171,8 @@ class MainWindow(QMainWindow):
         self.grid.addWidget(QLabel('Log'), 10, 0, 1, 3)
         self.grid.addWidget(self.text_logger.widget, 11, 0, 3, 3)
 
+        self.grid.addWidget(self.debug_window_button, 14, 0)
+
         self.grid.addWidget(self.about_button, 14, 2)
 
         self.widget = QWidget()
@@ -164,10 +189,18 @@ class MainWindow(QMainWindow):
         self.load_config()
 
     def close_event(self, event):
-        reply = QMessageBox.question(self, 'Save', 'Do you want to save the config?', QMessageBox.Yes | QMessageBox.No)
+        reply = QMessageBox.question(
+            self,
+            'Save',
+            'Do you want to save the config?',
+            QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
 
         if reply == QMessageBox.Yes:
             self.save_config()
+        else:
+            if reply == QMessageBox.Cancel:
+                event.ignore()
+                return
 
         event.accept()
 
@@ -311,7 +344,7 @@ class MainWindow(QMainWindow):
                     is_end = True
                     break
 
-                last_move = papergames_manager.get_last_move()
+                last_move = papergames_manager.get_last_move(self.debug_window.label)
 
                 if last_move not in move_list:
                     logger.info(f"Opponent move: {last_move}")
@@ -342,7 +375,7 @@ class MainWindow(QMainWindow):
                             is_end = True
                             break
 
-                        last_move = papergames_manager.get_last_move()
+                        last_move = papergames_manager.get_last_move(self.debug_window.label)
                         if last_move == (x, y) or last_move not in move_list:
                             break
 

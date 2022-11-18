@@ -1,7 +1,10 @@
 import logging
 
 import pynput
-from PIL import ImageGrab
+from PIL import ImageGrab, ImageDraw, ImageFont
+from PIL.ImageQt import ImageQt
+from PyQt5 import QtGui, QtCore
+from PyQt5.QtWidgets import QLabel
 
 
 class PapergamesManager:
@@ -34,7 +37,7 @@ class PapergamesManager:
         self.mouse.position = self.original_mouse_position
         self.logger.debug("Mouse to original position.")
 
-    def get_last_move(self) -> tuple[int, int]:
+    def get_last_move(self, label: QLabel = None) -> tuple[int, int]:
         try:
             image = ImageGrab.grab(bbox=(
                 self.left_top_corner_mouse[0],
@@ -47,6 +50,11 @@ class PapergamesManager:
             self.logger.debug("No move found.")
             return -1, -1
 
+        if label is not None:
+            label.setPixmap(QtGui.QPixmap.fromImage(ImageQt(image)).scaledToWidth(
+                350, mode=QtCore.Qt.SmoothTransformation
+            ))
+
         try:
             for x in range(15):
                 for y in range(15):
@@ -56,6 +64,16 @@ class PapergamesManager:
                         ((x + 1.2) * self.square_size_mouse, (y + 1.2) * self.square_size_mouse)
                     ) == 0:
                         self.logger.debug(f"Found last move: {x}, {y}")
+
+                        if label is not None:
+                            image_draw = ImageDraw.Draw(image)
+                            font = ImageFont.truetype('NotoSans-Regular.ttf', 64)
+                            image_draw.text((0, 0), f"{x},{y}", fill=0, font=font)
+
+                            label.setPixmap(QtGui.QPixmap.fromImage(ImageQt(image)).scaledToWidth(
+                                350, mode=QtCore.Qt.SmoothTransformation
+                            ))
+
                         return x, y
         except IndexError as e:
             self.logger.error(f"IndexError: {e}")
