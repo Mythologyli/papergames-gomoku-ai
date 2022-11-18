@@ -1,0 +1,16 @@
+<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="18" width="18" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g stroke="null" id="svg_10">
+   <circle stroke="null" id="svg_1" fill="#2c3e50" r="4.49993" cy="8" cx="4.621079"/>
+   <g stroke="null" opacity="0.8" id="svg_6">
+    <circle stroke="null" transform="matrix(0.1123124315626679,0,0,0.1123124315626679,-37.84218506972349,-28.144858532034718) " id="svg_5" fill="#18bc9c" r="40" cy="321.824194" cx="438.317883"/>
+   </g>
+  </g>
+ </g>
+</svg>
