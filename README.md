@@ -1,6 +1,8 @@
 # PaperGames Gomoku AI
 
-![](image/window.png)
+<p align="center">
+  <img width="400" src="image/window.png">
+</p>
 
 Gomoku AI for [papergames.io](https://papergames.io/).
 
@@ -21,8 +23,3 @@ Gomoku AI for [papergames.io](https://papergames.io/).
 6. Set `turn timeout` and `turn wait time`. `turn timeout` is the maximum time for AI to think for one turn, and `turn wait time` is the minimum time for one turn.
 
 7. Now you can start a game. Choose `Yes` if you are the first one to play. Make sure nothing is covering the brower and don't use mouse or keyboard during the game.
-
-## Thanks
-
-+ [qbittorrent-api](https://github.com/rmartin16/qbittorrent-api)
-+ [transmission-rpc](https://github.com/trim21/transmission-rpc)
