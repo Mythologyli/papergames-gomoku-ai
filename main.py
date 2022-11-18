@@ -202,6 +202,8 @@ class MainWindow(QMainWindow):
                 event.ignore()
                 return
 
+        self.debug_window.close()
+
         event.accept()
 
     def load_config(self):
