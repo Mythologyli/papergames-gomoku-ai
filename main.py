@@ -248,6 +248,16 @@ class MainWindow(QMainWindow):
             self.pbrain_path_edit.setText(pbrain_path_str)
 
     def set_mouse(self):
+        reply = QMessageBox.question(
+            self,
+            'Set Mouse',
+            'Do you want to set the mouse?',
+            QMessageBox.Yes | QMessageBox.No
+            )
+
+        if reply == QMessageBox.No:
+            return
+
         QMessageBox.information(
             self,
             'Set Left Top Position',
