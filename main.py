@@ -60,70 +60,70 @@ class MainWindow(QMainWindow):
 
         self.debug_window = DebugWindow()
 
-        self.log_level_button = QButtonGroup()
+        self.log_level_button = QButtonGroup(self)
 
-        self.log_level_info_radia_button = QRadioButton('Info')
+        self.log_level_info_radia_button = QRadioButton('Info', self)
         self.log_level_info_radia_button.setChecked(True)
         self.log_level_button.addButton(self.log_level_info_radia_button, 0)
-        self.log_level_debug_radia_button = QRadioButton('Debug')
+        self.log_level_debug_radia_button = QRadioButton('Debug', self)
         self.log_level_debug_radia_button.setChecked(False)
         self.log_level_button.addButton(self.log_level_debug_radia_button, 1)
 
-        self.pbrain_path_edit = QLineEdit()
+        self.pbrain_path_edit = QLineEdit(self)
         self.pbrain_path_edit.setText('pbrain.exe')
 
-        self.pbrain_path_select_button = QPushButton('Select')
+        self.pbrain_path_select_button = QPushButton('Select', self)
         # noinspection PyUnresolvedReferences
         self.pbrain_path_select_button.clicked.connect(self.select_pbrain_path)
 
-        self.left_top_corner_mouse_x_edit = QLineEdit()
+        self.left_top_corner_mouse_x_edit = QLineEdit(self)
         self.left_top_corner_mouse_x_edit.setText('0')
         self.left_top_corner_mouse_x_edit.setValidator(QIntValidator(0, self.screen.size().width() - 1))
 
-        self.left_top_corner_mouse_y_edit = QLineEdit()
+        self.left_top_corner_mouse_y_edit = QLineEdit(self)
         self.left_top_corner_mouse_y_edit.setText('0')
         self.left_top_corner_mouse_y_edit.setValidator(QIntValidator(0, self.screen.size().height() - 1))
 
-        self.right_bottom_corner_mouse_x_edit = QLineEdit()
+        self.right_bottom_corner_mouse_x_edit = QLineEdit(self)
         self.right_bottom_corner_mouse_x_edit.setText(str(self.screen.size().width() - 1))
         self.right_bottom_corner_mouse_x_edit.setValidator(QIntValidator(0, self.screen.size().width() - 1))
 
-        self.right_bottom_corner_mouse_y_edit = QLineEdit()
+        self.right_bottom_corner_mouse_y_edit = QLineEdit(self)
         self.right_bottom_corner_mouse_y_edit.setText(str(self.screen.size().height() - 1))
         self.right_bottom_corner_mouse_y_edit.setValidator(QIntValidator(0, self.screen.size().height() - 1))
 
-        self.set_mouse_button = QPushButton('Set Mouse Range')
+        self.set_mouse_button = QPushButton('Set Mouse Range', self)
         # noinspection PyUnresolvedReferences
         self.set_mouse_button.clicked.connect(self.set_mouse)
 
-        self.timeout_turn_edit = QLineEdit()
+        self.timeout_turn_edit = QLineEdit(self)
         self.timeout_turn_edit.setText('4.000')
         self.timeout_turn_edit.setValidator(QDoubleValidator(0.0, 40.0, 3))
 
-        self.turn_wait_time_edit = QLineEdit()
+        self.turn_wait_time_edit = QLineEdit(self)
         self.turn_wait_time_edit.setText('4.000')
         self.turn_wait_time_edit.setValidator(QDoubleValidator(0.0, 40.0, 1))
 
-        self.first_move_button = QButtonGroup()
+        self.first_move_button = QButtonGroup(self)
 
-        self.is_first_move_radia_button = QRadioButton('Yes')
+        self.is_first_move_radia_button = QRadioButton('Yes', self)
         self.is_first_move_radia_button.setChecked(True)
         self.first_move_button.addButton(self.is_first_move_radia_button, 0)
-        self.not_first_move_radia_button = QRadioButton('No')
+        self.not_first_move_radia_button = QRadioButton('No', self)
         self.not_first_move_radia_button.setChecked(False)
         self.first_move_button.addButton(self.not_first_move_radia_button, 1)
 
-        self.start_or_stop_button = QPushButton('Start')
+        self.start_or_stop_button = QPushButton('Start', self)
         # noinspection PyUnresolvedReferences
         self.start_or_stop_button.clicked.connect(self.start_or_stop)
 
         self.text_logger = QTextEditLogger(self)
 
-        self.debug_window_button = QPushButton('Debug')
+        self.debug_window_button = QPushButton('Debug', self)
         # noinspection PyUnresolvedReferences
         self.debug_window_button.clicked.connect(lambda: self.debug_window.show())
 
-        self.about_button = QPushButton('About')
+        self.about_button = QPushButton('About', self)
         # noinspection PyUnresolvedReferences
         self.about_button.clicked.connect(
             lambda: QMessageBox.about(
@@ -138,37 +138,37 @@ class MainWindow(QMainWindow):
         self.grid = QGridLayout()
         self.grid.setSpacing(10)
 
-        self.grid.addWidget(QLabel('Log Level:'), 1, 0)
+        self.grid.addWidget(QLabel('Log Level:', self), 1, 0)
         self.grid.addWidget(self.log_level_info_radia_button, 1, 1)
         self.grid.addWidget(self.log_level_debug_radia_button, 1, 2)
 
-        self.grid.addWidget(QLabel('Pbrain'), 2, 0)
+        self.grid.addWidget(QLabel('Pbrain', self), 2, 0)
         self.grid.addWidget(self.pbrain_path_edit, 2, 1)
         self.grid.addWidget(self.pbrain_path_select_button, 2, 2)
 
-        self.grid.addWidget(QLabel('Left Top'), 3, 0)
+        self.grid.addWidget(QLabel('Left Top', self), 3, 0)
         self.grid.addWidget(self.left_top_corner_mouse_x_edit, 3, 1)
         self.grid.addWidget(self.left_top_corner_mouse_y_edit, 3, 2)
 
-        self.grid.addWidget(QLabel('Right Bottom'), 4, 0)
+        self.grid.addWidget(QLabel('Right Bottom', self), 4, 0)
         self.grid.addWidget(self.right_bottom_corner_mouse_x_edit, 4, 1)
         self.grid.addWidget(self.right_bottom_corner_mouse_y_edit, 4, 2)
 
         self.grid.addWidget(self.set_mouse_button, 5, 0, 1, 3)
 
-        self.grid.addWidget(QLabel('Turn Timeout'), 6, 0)
+        self.grid.addWidget(QLabel('Turn Timeout', self), 6, 0)
         self.grid.addWidget(self.timeout_turn_edit, 6, 1)
 
-        self.grid.addWidget(QLabel('Turn Wait Time'), 7, 0)
+        self.grid.addWidget(QLabel('Turn Wait Time', self), 7, 0)
         self.grid.addWidget(self.turn_wait_time_edit, 7, 1)
 
-        self.grid.addWidget(QLabel('Is First Move'), 8, 0)
+        self.grid.addWidget(QLabel('Is First Move', self), 8, 0)
         self.grid.addWidget(self.is_first_move_radia_button, 8, 1)
         self.grid.addWidget(self.not_first_move_radia_button, 8, 2)
 
         self.grid.addWidget(self.start_or_stop_button, 9, 0, 1, 3)
 
-        self.grid.addWidget(QLabel('Log'), 10, 0, 1, 3)
+        self.grid.addWidget(QLabel('Log', self), 10, 0, 1, 3)
         self.grid.addWidget(self.text_logger.widget, 11, 0, 3, 3)
 
         self.grid.addWidget(self.debug_window_button, 14, 0)

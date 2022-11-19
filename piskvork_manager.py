@@ -15,7 +15,6 @@ class PiskvorkManager:
                 str(pbrain_path),
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
                 startupinfo=startupinfo
             )
         except FileNotFoundError:
@@ -31,13 +30,15 @@ class PiskvorkManager:
         self._write_input('START 15')
 
         # Check if piskvork brain started successfully
-        output_str = self.proc.stdout.readline().decode('utf-8')
-        self.logger.debug(f"Brain output: {output_str.strip()}")
-        if "OK" in output_str:
-            self.logger.info('Piskvork brain OK!')
-        else:
-            self.logger.error(f"Fail to start piskvork brain in {str(pbrain_path)}.")
-            self.proc = None
+        for i in range(5):
+            output_str = self.proc.stdout.readline().decode('utf-8')
+            self.logger.debug(f"Brain output: {output_str.strip()}")
+            if "OK" in output_str:
+                self.logger.info('Piskvork brain OK!')
+                return
+
+        self.logger.error(f"Fail to start piskvork brain in {str(pbrain_path)}.")
+        self.proc = None
 
     def _write_input(self, input_str: str) -> None:
         self.proc.stdin.write((input_str + '\r\n').encode('utf-8'))
